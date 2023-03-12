@@ -1,0 +1,33 @@
+version: "3.3"
+
+volumes:
+  data:
+  redisdata:
+services:
+  nacos:
+    image: zhusaidong/nacos-server-m1:2.0.3
+    ports:
+      - "8848:8848"
+    environment:
+      - "JVM_XMS=256m"
+      - "JVM_XMX=256m"
+      - "MODE=standalone"
+
+
+  mysql:
+    image: ibex/debian-mysql-server-5.7
+    ports:
+      - "3306:3306"
+    volumes:
+      - data:/var/lib/mysql
+      - ./yingxue.sql:/docker-entrypoint-initdb.d/yingxue.sql
+    environment:
+      - "MYSQL_ROOT_PASSWORD=123"
+      - "MYSQL_DATABASE=yingxue"
+
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redisdata:/data
