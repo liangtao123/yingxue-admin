@@ -1,0 +1,9 @@
+server:
+  port: 8982
+spring:
+  application:
+    name: API-USERS
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848

@@ -1,0 +1,9 @@
+server:
+  port: 8980
+spring:
+  application:
+    name: API-ADMINS
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848

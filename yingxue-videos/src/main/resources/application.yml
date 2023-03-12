@@ -1,0 +1,9 @@
+server:
+  port: 8983
+spring:
+  application:
+    name: API-VIDEOS
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848

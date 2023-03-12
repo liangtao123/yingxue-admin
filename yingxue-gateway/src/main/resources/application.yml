@@ -1,0 +1,45 @@
+#  前端发来请求 ---->进入网关 通过断言匹配-----> 经过filter过滤----->controller
+server:
+  port: 9999
+spring:
+  application:
+    name: API-GATEWAY
+  cloud:
+    nacos:
+      server-addr: localhost:8848
+    gateway:
+      routes: #断言 用来配置路由规则 id uri path
+        #admins router
+        - id: admins_router
+          uri: lb://API-ADMINS #负载均衡写法
+          predicates:
+            - Path=/admins/demos #采用这种路径断言办法，请求进入网关断言，但是不能已这种方式发送给controller，因为没有此路径的请求
+          filters:
+            - StripPrefix=1 #去掉请求前缀的filter =写int类型 1代表去掉1级前缀 2代表去掉两级
+        #categary router
+        - id: categary_router
+          uri: lb://API-CATEGORYS #负载均衡写法
+          predicates:
+            - Path=/categary/demos
+          filters:
+            - StripPrefix=1 #去掉请求前缀的filter =写int类型 1代表去掉1级前缀 2代表去掉两级
+        #users router
+        - id: users_router
+          uri: lb://API-USERS #负载均衡写法
+          predicates:
+            - Path=/users/demos
+          filters:
+            - StripPrefix=1 #去掉请求前缀的filter =写int类型 1代表去掉1级前缀 2代表去掉两级
+        #videos router
+        - id: videos_router
+          uri: lb://API-VIDEOS #负载均衡写法
+          predicates:
+            - Path=/videos/demos
+          filters:
+            - StripPrefix=1 #去掉请求前缀的filter =写int类型 1代表去掉1级前缀 2代表去掉两级
+      globalcors: ##跨域处理
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods: "*"
+            allowedHeaders: "*"
