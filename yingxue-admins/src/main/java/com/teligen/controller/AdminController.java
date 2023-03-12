@@ -4,9 +4,11 @@ import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.teligen.entity.Admin;
+import com.teligen.entity.AdminDTO;
 import com.teligen.service.AdminService;
 import com.teligen.utils.JacksonUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
@@ -53,6 +55,16 @@ public class AdminController {
 
         result.put("token",token);
         return result;
+    }
+
+    @GetMapping("/admin-user")
+    public AdminDTO admin(String token){
+        log.info("当前token信息为:{}",token);
+        redisTemplate.setKeySerializer(new StringRedisSerializer());
+        Admin admin =(Admin) redisTemplate.opsForValue().get(token);
+        AdminDTO adminDTO=new AdminDTO();
+        BeanUtils.copyProperties(admin,adminDTO);
+        return adminDTO;
     }
 }
 
