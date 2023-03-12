@@ -13,7 +13,7 @@ spring:
         - id: admins_router
           uri: lb://API-ADMINS #负载均衡写法
           predicates:
-            - Path=/admins/demos,/admin/tokens,/admin/admin-user #采用这种路径断言办法，请求进入网关断言，但是不能已这种方式发送给controller，因为没有此路径的请求
+            - Path=/admins/demos,/admin/tokens,/admin/admin-user,/admin/tokens/** #采用这种路径断言办法，请求进入网关断言，但是不能已这种方式发送给controller，因为没有此路径的请求
           filters:
             - StripPrefix=1 #去掉请求前缀的filter =写int类型 1代表去掉1级前缀 2代表去掉两级
         #categary router

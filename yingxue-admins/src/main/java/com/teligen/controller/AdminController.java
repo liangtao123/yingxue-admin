@@ -66,5 +66,16 @@ public class AdminController {
         BeanUtils.copyProperties(admin,adminDTO);
         return adminDTO;
     }
+
+
+    /**
+     *
+     * @param token 需要登出的用户的token数据
+     */
+    @DeleteMapping("/tokens/{token}")
+    public void logOut(@PathVariable("token")String token){
+        redisTemplate.setKeySerializer(new StringRedisSerializer());
+        redisTemplate.delete(token);
+    }
 }
 
